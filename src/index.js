@@ -3,11 +3,28 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { createStore } from "redux";
+import { rootReducer } from "./redux/reducers/rootReducer";
+import { Provider } from "react-redux";
+import { load, save } from "./storage";
+
+const persistedState = load();
+
+let store;
+if (process.env.NODE_ENV === 'development') {
+  store = createStore(rootReducer, persistedState,
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
+} else {
+  store = createStore(rootReducer, persistedState);
+}
+
+store.subscribe(() => save(store.getState()))
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
