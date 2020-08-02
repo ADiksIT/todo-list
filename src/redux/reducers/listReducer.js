@@ -1,27 +1,24 @@
-import {ADD_TODO, CHANGE_TODO, DELETE_TODO, TOGGLE_TODO} from "../actions/todo";
+import {handleActions} from "redux-actions";
+import {addTodo, changeTodo, deleteTodo, toggleTodo} from "../actions/actions";
 
-export const initialState = [{text: 'Add your first to-do!', completed: false, id:Date.now().toString() }]
+export const initialState = [{text: 'Add your first TO-DO', id: Date.now().toString(), completed: false}]
 
-const listReducer = (state = initialState, action) => {
-  switch (action.type) {
-
-    case ADD_TODO:
-      return [...state, action.payload]
-
-    case TOGGLE_TODO:
-      return state.map(todo => todo.id === action.id ? {...todo, completed: !todo.completed} : todo)
-
-    case DELETE_TODO:
-      return state.filter(todo => todo.id !== action.id)
-
-    case CHANGE_TODO:
-      return state.map(todo => {
-        if (todo.id === action.id) todo.text = action.text
-        return todo
-      })
-
-    default: return state
-  }
-}
-
-export default listReducer
+export const listReducer = handleActions (
+    {
+      [addTodo](state, {payload}) {
+        return [...state, {...payload}]
+      },
+      [toggleTodo](state, {payload}) {
+        return state.map(todo => todo.id === payload ? {...todo, completed: !todo.completed} : todo)
+      },
+      [deleteTodo](state, {payload}) {
+        return state.filter(todo => todo.id !== payload)
+      },
+      [changeTodo](state, {payload}) {
+        return state.map(todo => {
+          if (todo.id === payload.id) todo.text = payload.text
+          return todo
+        })
+      }
+    }, initialState
+)
