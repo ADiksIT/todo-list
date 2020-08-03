@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeTodo, deleteTodo, toggleTodo } from '../redux/actions/actions';
+import PropTypes from 'prop-types'
+import s from '../index.module.sass'
 
 export const Item = ({ todo }) => {
   const dispatch = useDispatch();
 
-  const [text, setText] = useState(todo.text);
+  const [text, setText] = useState(todo.text ?? 'error text');
   const [state, setState] = useState(false);
 
   const handlerInput = ({ target }) => {
@@ -27,7 +29,7 @@ export const Item = ({ todo }) => {
   return (
     <li
       className={
-        todo.completed ? 'collection-item completed' : 'collection-item'
+        todo?.completed ? `${s['collection-item']} ${s['completed']}` : s['collection-item']
       }
     >
       <label
@@ -58,17 +60,18 @@ export const Item = ({ todo }) => {
         <span>{text}</span>
       )}
 
-      <div className="icons">
+      <div className={s["icons"]}>
         <i className="material-icons" onClick={() => handlerChange()}>
           create
         </i>
-        <i
-          className="material-icons"
-          onClick={() => dispatch(deleteTodo(todo.id))}
-        >
+        <i className="material-icons" onClick={() => dispatch(deleteTodo(todo.id))}>
           cancel
         </i>
       </div>
     </li>
   );
 };
+
+Item.propTypes = {
+  todo: PropTypes.object,
+}

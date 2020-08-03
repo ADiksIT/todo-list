@@ -22,6 +22,7 @@ export const Form = () => {
 
     dispatch(addTodo(newTodo));
     setText('');
+
   };
 
   return (
