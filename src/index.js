@@ -4,21 +4,16 @@ import * as serviceWorker from './serviceWorker';
 import { createStore } from "redux";
 import { rootReducer } from "./redux/reducers/rootReducer";
 import { Provider } from "react-redux";
-import { load, save } from "./storage";
 import App from './App';
-
-const persistedState = load();
 
 let store;
 if (process.env.NODE_ENV === 'development') {
-  store = createStore(rootReducer, persistedState,
+  store = createStore(rootReducer,
       window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   );
 } else {
-  store = createStore(rootReducer, persistedState);
+  store = createStore(rootReducer);
 }
-
-store.subscribe(() => save(store.getState()))
 
 ReactDOM.render(
   <Provider store={store}>

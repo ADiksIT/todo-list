@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { changeTodo, deleteTodo, toggleTodo } from '../redux/actions/actions';
 import PropTypes from 'prop-types'
 import s from '../index.module.sass'
+import {useHttp} from "../hooks/http.hook";
 
 export const Item = ({ todo }) => {
   const dispatch = useDispatch();
-
+  const {request} = useHttp();
+  const user = useSelector(state => state.user);
   const [text, setText] = useState(todo.text ?? 'error text');
   const [state, setState] = useState(false);
 
@@ -20,6 +22,7 @@ export const Item = ({ todo }) => {
     }
 
     if (state) {
+      request(`/api/todos/users/${user.id}/change/text/${todo.id}`, 'POST', {text})
       dispatch(changeTodo({ text, id: todo.id }));
     }
 
@@ -34,6 +37,7 @@ export const Item = ({ todo }) => {
     >
       <label
         onChange={() => {
+          request(`/api/todos/users/${user.id}/change/completed/${todo.id}`, 'POST', {completed: !todo.completed})
           dispatch(toggleTodo(todo.id));
         }}
       >
@@ -64,7 +68,10 @@ export const Item = ({ todo }) => {
         <i className="material-icons" onClick={() => handlerChange()}>
           create
         </i>
-        <i className="material-icons" onClick={() => dispatch(deleteTodo(todo.id))}>
+        <i className="material-icons" onClick={() => {
+          request(`/api/todos/users/${user.id}/delete/${todo.id}`, 'GET')
+          dispatch(deleteTodo(todo.id))
+        }}>
           cancel
         </i>
       </div>
