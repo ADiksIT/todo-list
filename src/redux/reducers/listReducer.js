@@ -1,10 +1,13 @@
 import {handleActions} from "redux-actions";
-import {addTodo, changeTodo, deleteTodo, toggleTodo} from "../actions/actions";
+import {addAllTodo, addTodo, changeTodo, deleteTodo, toggleTodo} from "../actions/actions";
 
-export const initialState = [{text: 'Add your first TO-DO', id: Date.now().toString(), completed: false}]
+export const initialState = []
 
 export const listReducer = handleActions (
     {
+      [addAllTodo](state, {payload}) {
+        return [...state, ...payload]
+      },
       [addTodo](state, {payload}) {
         return [...state, {...payload}]
       },

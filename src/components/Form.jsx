@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { addTodo } from '../redux/actions/actions';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useHttp} from "../hooks/http.hook";
 
 export const Form = () => {
   const dispatch = useDispatch();
 
   const [text, setText] = useState('');
+  const {id} = useSelector(state => state.user)
+  const {request} = useHttp()
 
   const handlerInput = ({ target }) => setText(target.value);
 
   const handlerSubmit = (e) => {
     e.preventDefault();
+
+    if (!id) return alert('Войдите вначале в систему!!!')
 
     if (text.trim().length < 5) return;
 
@@ -20,9 +25,9 @@ export const Form = () => {
       completed: false
     }
 
+    request(`/api/todos/users/${id}`, 'POST', newTodo)
     dispatch(addTodo(newTodo));
     setText('');
-
   };
 
   return (
