@@ -21,6 +21,7 @@ export const Modal = () => {
     if (!response.errors)
     {
       dispatch(userChange(response))
+      localStorage.setItem('user', JSON.stringify(response))
       return setStatus(true)
     }
     alert(response.errors)

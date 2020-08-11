@@ -6,11 +6,14 @@ import s from '../index.module.sass'
 import {useHttp} from "../hooks/http.hook";
 
 export const Item = ({ todo }) => {
-  const dispatch = useDispatch();
-  const {request} = useHttp();
-  const user = useSelector(state => state.user);
+
   const [text, setText] = useState(todo.text ?? 'error text');
   const [state, setState] = useState(false);
+
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+
+  const {request} = useHttp();
 
   const handlerInput = ({ target }) => {
     setText(target.value);

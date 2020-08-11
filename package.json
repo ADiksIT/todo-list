@@ -3,7 +3,7 @@
   "name": "todo-list-redux",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000",
+  "proxy": "https://todo1111112.herokuapp.com",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -11,6 +11,7 @@
     "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
     "react-redux-actions-hook": "^1.1.16",
