@@ -4,10 +4,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHttp} from "../hooks/http.hook";
 
 export const Form = () => {
+  const [text, setText] = useState('');
+
+  const {id} = useSelector(state => state.user)
   const dispatch = useDispatch();
 
-  const [text, setText] = useState('');
-  const {id} = useSelector(state => state.user)
   const {request} = useHttp()
 
   const handlerInput = ({ target }) => setText(target.value);
