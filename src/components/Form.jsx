@@ -1,32 +1,33 @@
 import React, { useState } from 'react';
 import { addTodo } from '../redux/actions/actions';
-import {useDispatch, useSelector} from 'react-redux';
-import {useHttp} from "../hooks/http.hook";
+import { useDispatch, useSelector } from 'react-redux';
+import { useHttp } from '../hooks/http.hook';
+import { apiAddTodo } from '../http.actions';
 
 export const Form = () => {
   const [text, setText] = useState('');
 
-  const {id} = useSelector(state => state.user)
+  const { id } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const {request} = useHttp()
+  const { request } = useHttp();
 
   const handlerInput = ({ target }) => setText(target.value);
 
   const handlerSubmit = (e) => {
     e.preventDefault();
 
-    if (!id) return alert('Войдите вначале в систему!!!')
+    if (!id) return alert('Войдите вначале в систему!!!');
 
     if (text.trim().length < 5) return;
 
     const newTodo = {
       text: text.trim(),
       id: Date.now().toString(),
-      completed: false
-    }
+      completed: false,
+    };
 
-    request(`/api/todos/users/${id}`, 'POST', newTodo)
+    request(apiAddTodo(id), 'POST', newTodo);
     dispatch(addTodo(newTodo));
     setText('');
   };

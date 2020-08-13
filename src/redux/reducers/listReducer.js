@@ -6,7 +6,7 @@ export const initialState = []
 export const listReducer = handleActions (
     {
       [addAllTodo](state, {payload}) {
-        return [...state, ...payload]
+        return [...payload]
       },
       [addTodo](state, {payload}) {
         return [...state, {...payload}]
