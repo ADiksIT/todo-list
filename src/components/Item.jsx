@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeTodo, deleteTodo, toggleTodo } from '../redux/actions/actions';
-import PropTypes from 'prop-types'
-import s from '../index.module.sass'
-import {useHttp} from "../hooks/http.hook";
+import PropTypes from 'prop-types';
+import s from '../index.module.sass';
+import { useHttp } from '../hooks/http.hook';
+import { Draggable } from 'react-beautiful-dnd';
+import {
+  apiChangeTextTodo,
+  apiDeleteTodo,
+  apiChangeCompletedTodo,
+} from '../http.actions';
 
-export const Item = ({ todo }) => {
-
+export const Item = ({ todo, index }) => {
   const [text, setText] = useState(todo.text ?? 'error text');
   const [state, setState] = useState(false);
 
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
 
-  const {request} = useHttp();
+  const { request } = useHttp();
 
   const handlerInput = ({ target }) => {
     setText(target.value);
@@ -25,7 +30,7 @@ export const Item = ({ todo }) => {
     }
 
     if (state) {
-      request(`/api/todos/users/${user.id}/change/text/${todo.id}`, 'POST', {text})
+      request(apiChangeTextTodo(user.id, todo.id), 'POST', { text });
       dispatch(changeTodo({ text, id: todo.id }));
     }
 
@@ -33,55 +38,69 @@ export const Item = ({ todo }) => {
   };
 
   return (
-    <li
-      className={
-        todo?.completed ? `${s['collection-item']} ${s['completed']}` : s['collection-item']
-      }
-    >
-      <label
-        onChange={() => {
-          request(`/api/todos/users/${user.id}/change/completed/${todo.id}`, 'POST', {completed: !todo.completed})
-          dispatch(toggleTodo(todo.id));
-        }}
-      >
-        <input type="checkbox" defaultChecked={todo.completed} />
-        <span>''</span>
-      </label>
-
-      {state ? (
-        <form
-          action="#"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handlerChange();
-          }}
+    <Draggable draggableId={todo.id} index={index} key={index}>
+      {(provided) => (
+        <li
+          className={
+            todo?.completed
+              ? `${s['collection-item']} ${s['completed']}`
+              : s['collection-item']
+          }
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
         >
-          <input
-            type="text"
-            value={text}
-            onChange={(e) => handlerInput(e)}
-            onFocus={(e) => e.target.select()}
-          />
-        </form>
-      ) : (
-        <span>{text}</span>
-      )}
+          <label
+            onChange={() => {
+              request(apiChangeCompletedTodo(user.id, todo.id), 'POST', {
+                completed: !todo.completed,
+              });
+              dispatch(toggleTodo(todo.id));
+            }}
+          >
+            <input type="checkbox" defaultChecked={todo.completed} />
+            <span>''</span>
+          </label>
 
-      <div className={s["icons"]}>
-        <i className="material-icons" onClick={() => handlerChange()}>
-          create
-        </i>
-        <i className="material-icons" onClick={() => {
-          request(`/api/todos/users/${user.id}/delete/${todo.id}`, 'GET')
-          dispatch(deleteTodo(todo.id))
-        }}>
-          cancel
-        </i>
-      </div>
-    </li>
+          {state ? (
+            <form
+              action="#"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handlerChange();
+              }}
+            >
+              <input
+                type="text"
+                value={text}
+                onChange={(e) => handlerInput(e)}
+                onFocus={(e) => e.target.select()}
+              />
+            </form>
+          ) : (
+            <span>{text}</span>
+          )}
+
+          <div className={s['icons']}>
+            <i className="material-icons" onClick={() => handlerChange()}>
+              create
+            </i>
+            <i
+              className="material-icons"
+              onClick={() => {
+                request(apiDeleteTodo(user.id, todo.id), 'GET');
+                dispatch(deleteTodo(todo.id));
+              }}
+            >
+              cancel
+            </i>
+          </div>
+        </li>
+      )}
+    </Draggable>
   );
 };
 
 Item.propTypes = {
   todo: PropTypes.object,
-}
+};
