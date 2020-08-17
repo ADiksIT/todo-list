@@ -4,7 +4,7 @@ import { List } from './components/List';
 import { NavBar } from './components/NavBar';
 import { ErrorBoundary } from './utils/ErrorBoundary';
 import { Modal } from './components/Modal';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {Switch, Route, HashRouter} from 'react-router-dom';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAllTodo } from './redux/actions/actions';
@@ -29,7 +29,7 @@ const App = () => {
   };
 
   return (
-    <Router>
+    <HashRouter basename='/'>
       <main>
         <ErrorBoundary>
           <NavBar />
@@ -48,7 +48,7 @@ const App = () => {
           </div>
         </ErrorBoundary>
       </main>
-    </Router>
+    </HashRouter>
   );
 };
 

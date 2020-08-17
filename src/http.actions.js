@@ -9,7 +9,7 @@ export const apiChangeTextTodo = (user, todo) =>
 export const apiChangeCompletedTodo = (user, todo) =>
   `https://todo1111112.herokuapp.com/api/todos/users/${user}/change/completed/${todo}`;
 
-export const apiGetTodos = (id) => `/api/todos/users/${id}`;
+export const apiGetTodos = (id) => `https://todo1111112.herokuapp.com/api/todos/users/${id}`;
 
 export const apiDeleteTodo = (user, todo) =>
   `https://todo1111112.herokuapp.com/api/todos/users/${user}/delete/${todo}`;
