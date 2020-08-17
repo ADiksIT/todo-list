@@ -38,7 +38,7 @@ export const List = () => {
           ref={provided.innerRef}
         >
           {list?.length ? (
-            list.map((todo, i) => <Item index={i} todo={todo} key={todo.id} />)
+            list.map((todo, i) => <Item index={i} todo={todo} key={todo?.id || i} />)
           ) : (
             <h5>Your list clear</h5>
           )}

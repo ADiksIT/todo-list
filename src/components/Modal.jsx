@@ -13,7 +13,7 @@ export const Modal = () => {
 
   const { request } = useHttp();
 
-  const redirectAuth = (status) => (status ? <Redirect to="/" /> : '');
+  const redirectAuth = (status) => (status ? <Redirect to="/list" /> : '');
 
   const authorize = async () => {
     const response = await request(apiRegisterUser(), 'POST', {

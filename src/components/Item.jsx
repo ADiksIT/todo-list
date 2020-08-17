@@ -12,7 +12,7 @@ import {
 } from '../http.actions';
 
 export const Item = ({ todo, index }) => {
-  const [text, setText] = useState(todo.text ?? 'error text');
+  const [text, setText] = useState(todo?.text ?? 'error text');
   const [state, setState] = useState(false);
 
   const dispatch = useDispatch();

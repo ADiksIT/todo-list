@@ -4,7 +4,7 @@ import { List } from './components/List';
 import { NavBar } from './components/NavBar';
 import { ErrorBoundary } from './utils/ErrorBoundary';
 import { Modal } from './components/Modal';
-import {Switch, Route, HashRouter} from 'react-router-dom';
+import  {Switch, Route, HashRouter, Redirect} from 'react-router-dom';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAllTodo } from './redux/actions/actions';
@@ -35,10 +35,13 @@ const App = () => {
           <NavBar />
           <div className="container">
             <Switch>
+              <Route exact path="/">
+                <Redirect to="/auth" />
+              </Route>
               <Route path="/auth">
                 <Modal />
               </Route>
-              <Route path="/">
+              <Route path="/list">
                 <Form />
                 <DragDropContext onDragEnd={onDragEnd}>
                   <List />
