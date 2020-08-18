@@ -9,7 +9,8 @@ import {
   apiChangeTextTodo,
   apiDeleteTodo,
   apiChangeCompletedTodo,
-} from '../http.actions';
+} from '../utils/http.actions';
+import {GroupBtnTodo} from "./GroupBtnTodo";
 
 export const Item = ({ todo, index }) => {
   const [text, setText] = useState(todo?.text ?? 'error text');
@@ -24,6 +25,13 @@ export const Item = ({ todo, index }) => {
     setText(target.value);
   };
 
+  const handlerChangeCompleted = () => {
+    request(apiChangeCompletedTodo(user.id, todo.id), 'POST', {
+      completed: !todo.completed,
+    });
+    dispatch(toggleTodo(todo.id));
+  }
+
   const handlerChange = () => {
     if (!text.trim()) {
       return;
@@ -36,6 +44,13 @@ export const Item = ({ todo, index }) => {
 
     setState(!state);
   };
+
+  const handlerDeleteTodo = () => {
+    request(apiDeleteTodo(user.id, todo.id), 'GET');
+    dispatch(deleteTodo(todo.id));
+  }
+
+  const buttonsData = [{text: 'create', onClick: handlerChange}, {text: 'delete', onClick: handlerDeleteTodo}]
 
   return (
     <Draggable draggableId={todo.id} index={index} key={index}>
@@ -50,29 +65,18 @@ export const Item = ({ todo, index }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <label
-            onChange={() => {
-              request(apiChangeCompletedTodo(user.id, todo.id), 'POST', {
-                completed: !todo.completed,
-              });
-              dispatch(toggleTodo(todo.id));
-            }}
-          >
+          <label onChange={() => handlerChangeCompleted()} >
             <input type="checkbox" defaultChecked={todo.completed} />
             <span>''</span>
           </label>
 
           {state ? (
-            <form
-              action="#"
-              onSubmit={(e) => {
+            <form action="#" onSubmit={(e) => {
                 e.preventDefault();
                 handlerChange();
               }}
             >
-              <input
-                type="text"
-                value={text}
+              <input type="text" value={text}
                 onChange={(e) => handlerInput(e)}
                 onFocus={(e) => e.target.select()}
               />
@@ -81,20 +85,8 @@ export const Item = ({ todo, index }) => {
             <span>{text}</span>
           )}
 
-          <div className={s['icons']}>
-            <i className="material-icons" onClick={() => handlerChange()}>
-              create
-            </i>
-            <i
-              className="material-icons"
-              onClick={() => {
-                request(apiDeleteTodo(user.id, todo.id), 'GET');
-                dispatch(deleteTodo(todo.id));
-              }}
-            >
-              cancel
-            </i>
-          </div>
+          <GroupBtnTodo data={buttonsData} className={s['icons']}/>
+
         </li>
       )}
     </Draggable>

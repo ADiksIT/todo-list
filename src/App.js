@@ -1,15 +1,16 @@
 import React from 'react';
+import { Switch, Route, HashRouter, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addAllTodo } from './redux/actions/actions';
+import { DragDropContext } from 'react-beautiful-dnd';
 import { Form } from './components/Form';
 import { List } from './components/List';
 import { NavBar } from './components/NavBar';
-import { ErrorBoundary } from './utils/ErrorBoundary';
-import { Modal } from './components/Modal';
-import  {Switch, Route, HashRouter, Redirect} from 'react-router-dom';
-import { DragDropContext } from 'react-beautiful-dnd';
-import { useDispatch, useSelector } from 'react-redux';
-import { addAllTodo } from './redux/actions/actions';
+import { Modal } from './components/Auth';
 import { useHttp } from './hooks/http.hook';
-import { apiReplace } from './http.actions';
+import { handleDragEnd } from "./utils/onDragEnd";
+import { apiReplace } from './utils/http.actions';
+import { ErrorBoundary } from './utils/ErrorBoundary';
 
 const App = () => {
   const { list, user } = useSelector((state) => state);
@@ -20,9 +21,7 @@ const App = () => {
   const onDragEnd = ({ destination, source }) => {
     if (!destination) return;
 
-    const result = Array.from(list);
-    const [removed] = result.splice(source.index, 1);
-    result.splice(destination.index, 0, removed);
+    const result = handleDragEnd({destination, source, list})
 
     dispatch(addAllTodo(result));
     request(apiReplace(user.id, destination.index, source.index));

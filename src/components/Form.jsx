@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { addTodo } from '../redux/actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHttp } from '../hooks/http.hook';
-import { apiAddTodo } from '../http.actions';
+import { apiAddTodo } from '../utils/http.actions';
+import {Input} from "./Input";
 
 export const Form = () => {
   const [text, setText] = useState('');
@@ -17,9 +18,9 @@ export const Form = () => {
   const handlerSubmit = (e) => {
     e.preventDefault();
 
-    if (!id) return alert('Войдите вначале в систему!!!');
+    if (!id) return alert('Sign in to your account!');
 
-    if (text.trim().length < 5) return;
+    if (text.trim().length < 5) return alert('Todo must have at least five symbols')
 
     const newTodo = {
       text: text.trim(),
@@ -40,12 +41,12 @@ export const Form = () => {
             <span>Add</span>
           </button>
           <div className="file-path-wrapper">
-            <input
-              className="file-path validate"
-              value={text}
-              onChange={handlerInput}
-              type="text"
-              placeholder="Add your todo (min 5 symbols)"
+            <Input
+                name='Todo'
+                value={text}
+                onChange={handlerInput}
+                placeholder='Add your todo (min 5 symbols)'
+                className='file-path validate'
             />
           </div>
         </div>

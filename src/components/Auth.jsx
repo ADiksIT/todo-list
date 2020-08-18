@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { useHttp } from '../hooks/http.hook';
 import { Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { userChange } from '../redux/actions/user';
-import { apiRegisterUser } from '../http.actions';
+import { useHttp } from '../hooks/http.hook';
+import { apiRegisterUser } from '../utils/http.actions';
+import { Input } from "./Input";
 
 export const Modal = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState(false);
+
   const dispatch = useDispatch();
 
   const { request } = useHttp();
@@ -16,17 +18,25 @@ export const Modal = () => {
   const redirectAuth = (status) => (status ? <Redirect to="/list" /> : '');
 
   const authorize = async () => {
-    const response = await request(apiRegisterUser(), 'POST', {
-      login,
-      password,
-    });
+
+    if (login.trim() === '' || password.trim() === '') {
+      alert('Input should not be empty')
+      return
+    }
+
+    const response = await request(apiRegisterUser(), 'POST', {login, password});
+
     if (!response.errors) {
       dispatch(userChange(response));
       localStorage.setItem('user', JSON.stringify(response));
+
       return setStatus(true);
     }
+
     alert(response.errors);
   };
+
+  const inputHandle = ({target}) => target.name === 'login' ? setLogin(target.value.trim()) : setPassword(target.value.trim())
 
   return (
     <div className="row">
@@ -35,34 +45,8 @@ export const Modal = () => {
           <div className="card-content white-text">
             <span className="card-title">Auth</span>
             <div className="container">
-              <div className="row">
-                <div className="input-field col s12">
-                  <input
-                    value={login}
-                    name="login"
-                    type="text"
-                    className="validate"
-                    onChange={({ target }) => {
-                      setLogin(target.value);
-                    }}
-                  />
-                  <label className="active">LogIn</label>
-                </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input
-                    value={password}
-                    name="password"
-                    type="text"
-                    className="validate"
-                    onChange={({ target }) => {
-                      setPassword(target.value);
-                    }}
-                  />
-                  <label className="active">Password</label>
-                </div>
-              </div>
+              <Input onChange={inputHandle} value={login} name={'login'} className='validate'/>
+              <Input onChange={inputHandle} value={password} name={'password'} className='validate'/>
             </div>
           </div>
           <div className="card-action">

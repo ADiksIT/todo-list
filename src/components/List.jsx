@@ -5,7 +5,7 @@ import { useHttp } from '../hooks/http.hook';
 import { addAllTodo } from '../redux/actions/actions';
 import { userChange } from '../redux/actions/user';
 import { Droppable } from 'react-beautiful-dnd';
-import { apiGetTodos } from '../http.actions';
+import { apiGetTodos } from '../utils/http.actions';
 
 export const List = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export const List = () => {
         dispatch(addAllTodo(response));
         dispatch(userChange(localUser));
       };
-      fetchData();
+      fetchData()
     }, [dispatch, id, localUser, request]),
     [],
   );
