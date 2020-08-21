@@ -1,0 +1,23 @@
+{
+  "nav_bar": {
+    "title": "TO-DO APP",
+    "btn_logIn": "LogIn",
+    "btn_logOut": "LogOut"
+  },
+  "form": {
+    "btn": "Add",
+    "label": "Todo",
+    "placeholder": "Add your to-do (min 5 symbols)",
+    "alert": "Todo must have at least five symbols"
+  },
+  "list": {
+    "clear_list": "Your list clear"
+  },
+  "auth": {
+    "title": "Auth",
+    "name_login": "Login",
+    "name_password": "Password",
+    "btn": "Authorize",
+    "alert": "Input should not be empty"
+  }
+}
