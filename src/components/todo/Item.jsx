@@ -10,7 +10,7 @@ import {
   apiDeleteTodo,
   apiChangeCompletedTodo,
 } from '../../utils/http.actions';
-import {GroupBtnTodo} from "./GroupBtnTodo";
+import { GroupBtnTodo } from "./GroupBtnTodo";
 
 export const Item = ({ todo, index }) => {
   const [text, setText] = useState(todo?.text ?? 'error text');
