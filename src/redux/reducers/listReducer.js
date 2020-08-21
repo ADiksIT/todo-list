@@ -1,5 +1,5 @@
 import {handleActions} from "redux-actions";
-import {addAllTodo, addTodo, changeTodo, clearTodo, deleteTodo, toggleTodo} from "../actions/actions";
+import {addAllTodo, addTodo, changeTodo, clearTodo, deleteTodo, toggleTodo} from "../actions/todos";
 
 export const initialState = []
 
@@ -23,7 +23,7 @@ export const listReducer = handleActions (
           return todo
         })
       },
-      [clearTodo](state, {payload}) {
+      [clearTodo]() {
         return initialState
       }
     }, initialState

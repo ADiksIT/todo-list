@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeTodo, deleteTodo, toggleTodo } from '../redux/actions/actions';
+import { changeTodo, deleteTodo, toggleTodo } from '../../redux/actions/todos';
 import PropTypes from 'prop-types';
-import s from '../index.module.sass';
-import { useHttp } from '../hooks/http.hook';
+import s from '../../index.module.sass';
+import { useHttp } from '../../hooks/http.hook';
 import { Draggable } from 'react-beautiful-dnd';
 import {
   apiChangeTextTodo,
   apiDeleteTodo,
   apiChangeCompletedTodo,
-} from '../utils/http.actions';
+} from '../../utils/http.actions';
 import {GroupBtnTodo} from "./GroupBtnTodo";
 
 export const Item = ({ todo, index }) => {
@@ -26,9 +26,12 @@ export const Item = ({ todo, index }) => {
   };
 
   const handlerChangeCompleted = () => {
-    request(apiChangeCompletedTodo(user.id, todo.id), 'POST', {
-      completed: !todo.completed,
-    });
+    if (user.auth) {
+      request(apiChangeCompletedTodo(user.id, todo.id), 'POST', {
+        completed: !todo.completed,
+      });
+    }
+
     dispatch(toggleTodo(todo.id));
   }
 
@@ -38,7 +41,9 @@ export const Item = ({ todo, index }) => {
     }
 
     if (state) {
-      request(apiChangeTextTodo(user.id, todo.id), 'POST', { text });
+      if (user.auth) {
+        request(apiChangeTextTodo(user.id, todo.id), 'POST', { text });
+      }
       dispatch(changeTodo({ text, id: todo.id }));
     }
 
@@ -46,7 +51,9 @@ export const Item = ({ todo, index }) => {
   };
 
   const handlerDeleteTodo = () => {
-    request(apiDeleteTodo(user.id, todo.id), 'GET');
+    if (user.auth) {
+      request(apiDeleteTodo(user.id, todo.id), 'GET');
+    }
     dispatch(deleteTodo(todo.id));
   }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addTodo } from '../redux/actions/actions';
+import { addTodo } from '../redux/actions/todos';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHttp } from '../hooks/http.hook';
 import { apiAddTodo } from '../utils/http.actions';
@@ -8,7 +8,7 @@ import {Input} from "./Input";
 export const Form = () => {
   const [text, setText] = useState('');
 
-  const { id } = useSelector((state) => state.user);
+  const { id, auth } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const { request } = useHttp();
@@ -18,8 +18,6 @@ export const Form = () => {
   const handlerSubmit = (e) => {
     e.preventDefault();
 
-    if (!id) return alert('Sign in to your account!');
-
     if (text.trim().length < 5) return alert('Todo must have at least five symbols')
 
     const newTodo = {
@@ -28,7 +26,10 @@ export const Form = () => {
       completed: false,
     };
 
-    request(apiAddTodo(id), 'POST', newTodo);
+    if (auth) {
+      request(apiAddTodo(id), 'POST', newTodo)
+    }
+
     dispatch(addTodo(newTodo));
     setText('');
   };

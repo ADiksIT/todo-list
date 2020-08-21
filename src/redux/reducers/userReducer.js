@@ -1,15 +1,17 @@
-import {handleActions} from "redux-actions";
-import {userChange, userLogout} from "../actions/user";
+import { handleActions } from "redux-actions";
+import { userChange, userLogout, userStatus } from "../actions/user";
 
-export const initialState = {user : '', id : ''};
+export const initialState = {user : '', id : '', auth: false, status: false};
 export const userReducer = handleActions (
     {
       [userChange](state, {payload}) {
-        return {user: payload.user, id: payload.id}
+        return {...state, user: payload.user, id: payload.id, auth: true}
       },
-      [userLogout](state, {payload}) {
-        return {...state, user: '', id: ''}
+      [userLogout](state, _) {
+        return {...state, user: '', id: '', auth: false}
+      },
+      [userStatus](state, _) {
+        return {...state, status: !state.status}
       }
-
     }, initialState
 )
