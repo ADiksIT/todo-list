@@ -2,15 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../redux/actions/user";
-import { clearTodo } from "../redux/actions/actions";
+import { clearTodo } from "../redux/actions/todos";
 
 export const NavBar = () => {
   const { user } = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   const logOutHandle = () => {
-    dispatch(userLogout())
-    dispatch(clearTodo())
+    if (user) {
+      dispatch(userLogout())
+      dispatch(clearTodo())
+    }
   }
 
   return (

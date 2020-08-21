@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { userChange } from '../redux/actions/user';
+import { userChange, userStatus } from '../redux/actions/user';
 import { useHttp } from '../hooks/http.hook';
 import { apiRegisterUser } from '../utils/http.actions';
 import { Input } from "./Input";
@@ -28,8 +28,7 @@ export const Modal = () => {
 
     if (!response.errors) {
       dispatch(userChange(response));
-      localStorage.setItem('user', JSON.stringify(response));
-
+      dispatch(userStatus());
       return setStatus(true);
     }
 

@@ -17,3 +17,5 @@ export const apiDeleteTodo = (user, todo) =>
   `${API_URL}/api/todos/users/${user}/delete/${todo}`;
 
 export const apiRegisterUser = () => `${API_URL}/api/auth/register_login`;
+
+export const apiAddAllTodos = (id) => `${API_URL}/api/todos/users/${id}/add_all`;
