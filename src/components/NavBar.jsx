@@ -1,15 +1,15 @@
 import React, {useState} from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { userLogout } from "../redux/actions/user";
-import { clearTodo } from "../redux/actions/todos";
+import {useDispatch, useSelector} from "react-redux";
+import {userLogout} from "../redux/actions/user";
+import {clearTodo} from "../redux/actions/todos";
 import PropTypes from 'prop-types';
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
+
 
 export const NavBar = ({data}) => {
   const [score, setScore] = useState(0)
 
-  const { user } = useSelector(state => state.user)
+  const {user} = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   const {t, i18n} = useTranslation('common');
@@ -37,10 +37,10 @@ export const NavBar = ({data}) => {
               <a><i className="material-icons">language</i></a>
             </li>
 
-            {user ? <li><Link to='/'>{user}</Link></li> : ''}
+            {user ? <li><a href='/list'>{user}</a></li> : ''}
 
             <li onClick={() => logOutHandle()}>
-              <Link to='/auth'>{user ? t('nav_bar.btn_logOut') : t('nav_bar.btn_logIn') }</Link>
+              <a href='/auth'>{user ? t('nav_bar.btn_logOut') : t('nav_bar.btn_logIn')}</a>
             </li>
 
           </ul>

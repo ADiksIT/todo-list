@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTodo, deleteTodo, toggleTodo } from '../../redux/actions/todos';
 import PropTypes from 'prop-types';
-import s from '../../index.module.sass';
+import '../../styles/index.module.sass';
 import { useHttp } from '../../hooks/http.hook';
 import { Draggable } from 'react-beautiful-dnd';
 import {
@@ -65,8 +65,8 @@ export const Item = ({ todo, index }) => {
         <li
           className={
             todo?.completed
-              ? `${s['collection-item']} ${s['completed']}`
-              : s['collection-item']
+              ? `${'collection-item'} ${'completed'}`
+              : 'collection-item'
           }
           ref={provided.innerRef}
           {...provided.draggableProps}
@@ -92,7 +92,7 @@ export const Item = ({ todo, index }) => {
             <span>{text}</span>
           )}
 
-          <GroupBtnTodo data={buttonsData} className={s['icons']}/>
+          <GroupBtnTodo data={buttonsData} className='icons' />
 
         </li>
       )}

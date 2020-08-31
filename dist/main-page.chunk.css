@@ -1,0 +1,2 @@
+.collection-item{user-select:none;display:flex;justify-content:space-between;align-items:center;background-color:#fff;line-height:1.5rem;padding:10px 20px;margin:0;border-bottom:1px solid #d6cfcf}.collection-item span{max-width:55%;text-overflow:ellipsis;overflow:hidden}.collection-item form{min-width:55%}.icons{display:flex;justify-content:space-between;align-items:center}.icons i{margin-right:15px;cursor:pointer}.completed{transition:all 0.6s;background-color:#e2e2e2 !important}
+
