@@ -42,9 +42,6 @@ i18next.init({
   },
 });
 
-//TODO: fix problems with ssr i18next
-//TODO: fix redirect problems and routing
-
 window.onload = () => {
   Loadable.preloadReady().then(() => {
     ReactDOM.hydrate(

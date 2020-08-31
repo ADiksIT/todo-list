@@ -1,4 +1,4 @@
-export const templateHTML = (styles, scripts, html, preloadedState) => {
+export const templateHTML = (styles = [], scripts =[], html = '<h1>Error</h1>h1>', preloadedState = {}) => {
   return `
      <!doctype html>
      <html lang="en">
@@ -22,7 +22,10 @@ export const templateHTML = (styles, scripts, html, preloadedState) => {
            <script src="${script.file}"></script>`;
       })
       .join(' ')}
-       <script>window.__PRELOADED_STATE__=${JSON.stringify(preloadedState)}</script>
+       <script>window.__PRELOADED_STATE__=${JSON.stringify(preloadedState).replace(
+      /</g,
+      '\\\u003c'
+         )}</script>
    
        <script>
          if ('serviceWorker' in navigator) {

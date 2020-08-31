@@ -13,6 +13,30 @@ import {Loader} from "./components/Loader";
 
 const languageList = ['ru', 'en'];
 
+const NotPage = Loadable({
+  loader: () =>
+      import(/* webpackChunkName: "not-page" */ './components/NotFound'),
+  loading() {
+    return <Loader/>;
+  },
+});
+
+const AuthPage = Loadable({
+  loader: () =>
+      import(/* webpackChunkName: "auth-page" */ './components/Auth'),
+  loading() {
+    return <Loader/>;
+  },
+});
+
+const ListPage = Loadable({
+  loader: () =>
+      import(/* webpackChunkName: "list-page" */ './components/TodoWorkSpace'),
+  loading() {
+    return <Loader/>;
+  },
+});
+
 const App = () => {
   const {list, user} = useSelector(state => state);
   const dispatch = useDispatch();
@@ -40,48 +64,19 @@ const App = () => {
     fetchData().catch(e => console.error(e))
   }, [user.status]);
 
-  const TodoWorkSpace = Loadable({
-    loader: () => import(/*webpackChunkName: "main-page"*/ './components/TodoWorkSpace'),
-    loading() {
-      return <Loader/>
-    },
-  });
-
-  const Auth = Loadable({
-    loader: () => import(/* webpackChunkName: "auth-page" */ './components/Auth'),
-
-    loading() {
-      return <Loader/>
-    },
-  });
-
-  const NotPage = Loadable({
-    loader: () =>
-        import(/* webpackChunkName: "not-found-page" */ './components/NotFound'),
-    loading() {
-      return <Loader/>
-    },
-  });
-
-
   return (
-
       <ErrorBoundary>
         <NavBar data={languageList}/>
-        <div className='container'>
+        <div className="container">
           <Switch>
-            <Route path="/auth">
-              <Auth/>
-            </Route>
-            <Route path='/list'>
-              <TodoWorkSpace onDragEnd={onDragEnd}/>
+            <Route exact path='/auth' component={AuthPage}/>
+            <Route exac path='/list'>
+              <ListPage onDragEnd={onDragEnd}/>
             </Route>
             <Route component={NotPage}/>
           </Switch>
         </div>
-
       </ErrorBoundary>
-
   );
 };
 

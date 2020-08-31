@@ -59,9 +59,11 @@ module.exports = {
       },
       {
         test: /\.module\.(c|s)(a|c|s)s?s$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['css-loader', 'sass-loader'],
       },
-
     ],
+  },
+  optimization: {
+    nodeEnv: 'development', // NODE_ENV
   },
 };

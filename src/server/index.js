@@ -15,7 +15,6 @@ import common_en from "../translations/en/common.json";
 import common_ru from "../translations/ru/common.json";
 import {templateHTML} from "./html.template";
 
-
 const PORT = process.env.PORT || 5000;
 const server = express();
 

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTodo, deleteTodo, toggleTodo } from '../../redux/actions/todos';
 import PropTypes from 'prop-types';
-import '../../styles/index.module.sass';
 import { useHttp } from '../../hooks/http.hook';
 import { Draggable } from 'react-beautiful-dnd';
 import {
@@ -11,6 +10,7 @@ import {
   apiChangeCompletedTodo,
 } from '../../utils/http.actions';
 import { GroupBtnTodo } from "./GroupBtnTodo";
+import '../../styles/index.module.sass';
 
 export const Item = ({ todo, index }) => {
   const [text, setText] = useState(todo?.text ?? 'error text');
