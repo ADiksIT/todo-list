@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[3],{365:function(e,n,a){"use strict";a.r(n);var t=a(0),r=a.n(t);a(371);n.default=function(){return r.a.createElement("div",{className:"main-wrapper"},r.a.createElement("div",{className:"title-wrapper"},r.a.createElement("h1",null,"404"),r.a.createElement("p",null,"page not found")))}},371:function(e,n,a){}}]);
